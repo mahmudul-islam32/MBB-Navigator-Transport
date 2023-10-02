@@ -1,13 +1,275 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-family: "Oswald", sans-serif !important;
+  background: #f6f6f6 !important;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.logo {
+  text-align: center;
+  font-size: 42px;
+  color: black;
+  font-weight: 500;
+  text-transform: uppercase;
+  padding: 20px;
+  letter-spacing: 2px;
+  word-spacing: 10px;
+}
+
+.form-sub {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.row.main {
+  margin-top: 20px;
+}
+.form-sub label {
+  font-size: 16px;
+}
+.form-label.d-h {
+  padding: 5px;
+}
+.form-label.d-h input {
+  margin-top: 10px;
+}
+.btn.btn-primary {
+  background: #e20618;
+  border: #e20618;
+  font-size: 18px;
+  text-transform: uppercase;
+  font-weight: 500;
+  padding: 8px 12px;
+}
+
+.btn.btn-primary:hover {
+  background: black;
+}
+.form-check-input:checked {
+  background-color: #e20618 !important;
+  border-color: #e20618 !important;
+}
+
+.journey-item {
+  list-style: none;
+  border-bottom: 1px solid #e5e5e5;
+  cursor: pointer;
+  background: white;
+  padding: 30px;
+  margin-bottom: 15px;
+  list-style: none;
+  border-bottom: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.journey-item.selected {
+  background: #fce6e8;
+}
+
+.time {
+  font-size: 20px;
+  font-weight: 500;
+}
+.delay {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.green .delay {
+  color: green;
+}
+.red .delay {
+  color: red;
+}
+
+/* CSS for Departure Time (on the left) */
+.departure-arrival-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.departure-time {
+  text-align: left;
+  width: 30%;
+}
+
+/* CSS for Arrival Time (on the right) */
+.arrival-time {
+  text-align: right;
+  width: 30%;
+}
+
+/* CSS for Fahr Names Container (in the middle) */
+.fahr-names-container {
+  display: flex;
+  align-items: center; /* Vertically center fahr-names */
+  gap: 15px; /* Adjust the gap between fahr names as needed */
+  border-top: 1px solid #e5e5e5;
+  padding-top: 15px;
+  margin-top: 15px;
+}
+
+.fahr-name-item {
+  position: relative;
+}
+
+.fahr-name-item:not(:first-child)::before {
+  content: "";
+  position: absolute;
+  left: -13px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 2px;
+  width: 11px;
+  background-color: gray;
+}
+
+/* CSS for Transport Types */
+.transport-type {
+  margin: 0 5px;
+}
+
+.transport-type {
+  padding: 2px 5px;
+  border-radius: 5px;
+}
+
+.re,
+.me,
+.tl,
+.tlx,
+.rb,
+.str,.opb,.mex {
+  background: #e20614;
+  color: white;
+}
+.bus {
+  background: #a61680;
+  color: white;
+}
+.s {
+  background: #009154;
+  color: white;
+}
+.ice,
+.ic,
+.ec,.ire{
+  background: #7d8185;
+  color: white;
+}
+
+/* Add CSS styles for layout */
+.departure-arrival-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fahr-names-container {
+  margin-top: 10px; /* Adjust margin as needed */
+}
+
+.details-container span {
+  padding-right: 20px;
+}
+
+/* CSS for Journey Details */
+/* CSS for Journey Details */
+
+/* CSS for Journey Details */
+.journey-details-container {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  position: relative;
+  margin-top: 30px;
+  background: white;
+  padding: 0px 30px;
+  border-radius: 10px;
+}
+
+.details-info {
+  flex: 1 1;
+  position: relative;
+  margin-bottom: 70px;
+  border-left: 2px solid gray;
+  padding-left: 20px;
+}
+
+.details-info::before,
+.details-info::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  height: 8px;
+  width: 8px;
+  background-color: gray;
+  transform: translateY(-50%);
+}
+
+.details-info::before {
+  left: -5px; /* Position the left dot at the starting point */
+}
+
+.details-info::after {
+  right: 0;
+  top: 100%;
+  left: -5px;
+}
+.departure-details {
+  position: relative;
+  top: -15px;
+}
+.arriavl-details {
+  position: relative;
+  top: 12px;
+}
+
+.transport-name {
+  flex: 1 1;
+  padding: 3px 10px;
+  border-radius: 3px;
+}
+
+.departure-platform,
+.arrival-platform {
+  display: flex;
+}
+
+.name {
+  position: relative;
+  left: 10%;
+}
+
+.transport-info {
+  margin-top: 60px;
+}
+
+.introduction-text {
+  background: white;
+  padding: 40px 35px;
+  border-radius: 10px;
+}
+
+.introduction-text h1 {
+  background: black;
+  width: 40%;
+  color: white;
+  padding: 10px 20px;
+  margin-bottom: 30px;
+}
+
+.load-more {
+  margin-left: 31px;
+  padding: 5px 14px !important;
+  font-size: 16px !important;
+}
+
+.introduction-text p {
+  font-family: arial;
+  font-size: 16px;
 }
