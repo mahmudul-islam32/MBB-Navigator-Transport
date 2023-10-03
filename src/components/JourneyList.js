@@ -81,6 +81,7 @@ function JourneyList({ journeys, isLoading, formattedDateTime }) {
     brb: "brb",
     ag: "ag",
     wba: "wba",
+    nwb: "nwb",
   };
 
   // Function to calculate and format time difference in minutes

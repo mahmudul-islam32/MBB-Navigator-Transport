@@ -154,7 +154,8 @@ body {
 .rjx,
 .brb,
 .ag,
-.wba {
+.wba,
+.nwb {
   background: #e20614;
   color: white;
 }
@@ -391,4 +392,29 @@ body {
   background: white;
   border-radius: 10px;
   padding: 35px 0px;
+}
+
+@media (max-width: 768px) {
+  .journey-details {
+    margin-top: 30px;
+  }
+  .journey-item {
+    margin-left: -32px;
+  }
+  .logo {
+    word-spacing: -8px;
+  }
+  .container.mt-5.public {
+    display: none;
+  }
+  p.copy {
+    text-align: center;
+  }
+
+  ul.footer-social {
+    text-align: center;
+  }
+  .introduction-text h1 {
+    width: 75%;
+  }
 }
