@@ -9,6 +9,7 @@ function SearchForm({ onSearch }) {
   const [time, setTime] = useState(new Date().toTimeString().slice(0, 5));
   const [fromSuggestions, setFromSuggestions] = useState([]);
   const [toSuggestions, setToSuggestions] = useState([]);
+  const [isLoading, setIsLoading] = useState(false); // Add loading state
 
   const formatDateTime = (date, time) => {
     const dateTime = new Date(`${date}T${time}`);
@@ -18,13 +19,39 @@ function SearchForm({ onSearch }) {
       minute: "numeric",
       hour12: true,
     };
-    return new Intl.DateTimeFormat("en-US", options).format(dateTime);
+    const formattedDateTime = new Intl.DateTimeFormat("en-US", options).format(
+      dateTime
+    );
+
+    const dateOptions = {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+    };
+    const formattedDate = new Intl.DateTimeFormat("en-US", dateOptions).format(
+      dateTime
+    );
+
+    return `${formattedDateTime}, ${formattedDate}`;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const formattedDateTime = formatDateTime(date, time);
-    onSearch(from, to, formattedDateTime, isDeparture);
+
+    // Set loading state to true when submitting
+    setIsLoading(true);
+
+    // Call the search function (assuming it returns a promise)
+    try {
+      await onSearch(from, to, formattedDateTime, isDeparture);
+    } catch (error) {
+      // Handle any errors here
+      console.error("Error:", error);
+    } finally {
+      // Set loading state to false when the search is complete (success or error)
+      setIsLoading(false);
+    }
   };
 
   const handleFromChange = (e) => {
@@ -36,7 +63,7 @@ function SearchForm({ onSearch }) {
       .filter(([id, name]) =>
         name.toLowerCase().includes(inputValue.toLowerCase())
       )
-      .slice(0, 10); // Limit to the top 10 matching suggestions
+      .slice(0, 5); // Limit to the top 5 matching suggestions
 
     setFromSuggestions(suggestions);
   };
@@ -50,7 +77,7 @@ function SearchForm({ onSearch }) {
       .filter(([id, name]) =>
         name.toLowerCase().includes(inputValue.toLowerCase())
       )
-      .slice(0, 10); // Limit to the top 10 matching suggestions
+      .slice(0, 5); // Limit to the top 5 matching suggestions
 
     setToSuggestions(suggestions);
   };
@@ -70,7 +97,7 @@ function SearchForm({ onSearch }) {
             value={from}
             onChange={handleFromChange}
           />
-          <ul>
+          <ul className="station-list">
             {fromSuggestions.map(([id, name]) => (
               <li
                 key={id}
@@ -96,7 +123,7 @@ function SearchForm({ onSearch }) {
             value={to}
             onChange={handleToChange}
           />
-          <ul>
+          <ul className="station-list">
             {toSuggestions.map(([id, name]) => (
               <li
                 key={id}
@@ -161,7 +188,7 @@ function SearchForm({ onSearch }) {
         </div>
 
         <button type="submit" className="btn btn-primary">
-          Search Journeys
+          {isLoading ? "Searching..." : "Search Journeys"}
         </button>
       </form>
     </div>

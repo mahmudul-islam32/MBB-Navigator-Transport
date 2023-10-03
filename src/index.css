@@ -143,7 +143,18 @@ body {
 .tl,
 .tlx,
 .rb,
-.str,.opb,.mex {
+.str,
+.opb,
+.mex,
+.erx,
+.fex,
+.stn,
+.hlb,
+.nj,
+.rjx,
+.brb,
+.ag,
+.wba {
   background: #e20614;
   color: white;
 }
@@ -157,7 +168,8 @@ body {
 }
 .ice,
 .ic,
-.ec,.ire{
+.ec,
+.ire {
   background: #7d8185;
   color: white;
 }
@@ -272,4 +284,111 @@ body {
 .introduction-text p {
   font-family: arial;
   font-size: 16px;
+}
+
+.station-list {
+  background: #f5f5f5;
+}
+.station-list li {
+  list-style: none;
+  padding: 10px 0px;
+  letter-spacing: 0px;
+  word-spacing: 2px;
+  border-bottom: 1px solid #e5e5e5;
+  cursor: pointer;
+}
+
+.time-difference {
+  border-left: 2px dotted gray;
+  padding-bottom: 40px;
+  padding-top: 40px;
+  margin-top: -65px;
+  padding-left: 20px;
+}
+
+.details-info.walksec:before {
+  display: none;
+}
+.time-difference.walking-class {
+  border-left: 2px solid gray;
+  padding-top: 32px;
+  top: -5px;
+  position: relative;
+}
+.details-info.walksec {
+  margin-top: -35px;
+}
+
+.arrival-walksec {
+  margin-top: 15px;
+  position: relative;
+  top: 12px;
+}
+.distance {
+  position: relative;
+  top: 10px;
+}
+
+.mt-4.mb-4.logo span {
+  background: #e10001;
+  color: white;
+  font-size: 17px;
+  padding: 5px;
+  word-spacing: 1px;
+}
+
+.mt-4.mb-4.logo span {
+  background: #e10001;
+  color: white;
+  font-size: 17px;
+  padding: 5px;
+  word-spacing: 1px;
+}
+.main-logo {
+  font-size: 40px !important;
+  padding: 0px 10px !important;
+  border-top: 5px solid;
+  background-color: transparent !important;
+  color: #e10001 !important;
+  border-bottom: 5px solid;
+}
+
+.bg-dark.text-light.py-3 {
+  margin-top: 60px;
+}
+
+.bg-dark.text-light.py-3 {
+  margin-top: 60px;
+}
+.copy {
+  margin-left: 10px;
+}
+.footer-social li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: inline-block;
+  text-decoration: none !important;
+  text-decoration-line: ;
+}
+.footer-social {
+  margin-right: 10px;
+}
+
+.footer-social li a {
+  text-decoration: navajowhite;
+}
+
+.public p {
+  text-align: center;
+  font-family: arial;
+  font-size: 16px;
+  line-height: 25px;
+  padding: 20px 70px;
+}
+
+.container.mt-5.public {
+  background: white;
+  border-radius: 10px;
+  padding: 35px 0px;
 }

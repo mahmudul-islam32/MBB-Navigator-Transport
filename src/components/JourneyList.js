@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
-function JourneyList({ journeys, isLoading }) {
+function JourneyList({ journeys, isLoading, formattedDateTime }) {
   const [selectedJourney, setSelectedJourney] = useState(null);
   const [journeysToShow, setJourneysToShow] = useState(3);
 
@@ -68,9 +69,46 @@ function JourneyList({ journeys, isLoading }) {
     tl: "tl",
     tlx: "tlx",
     str: "str",
-    opb:"opb",
-    ire:"ire",
-    mex:"mex",
+    opb: "opb",
+    ire: "ire",
+    mex: "mex",
+    erx: "erx",
+    fex: "fex",
+    stn: "stn",
+    hlb: "hlb",
+    nj: "nj",
+    rjx: "rjx",
+    brb: "brb",
+    ag: "ag",
+    wba: "wba",
+  };
+
+  // Function to calculate and format time difference in minutes
+  function calculateTimeDifference(arrivalTimestamp, departureTimestamp) {
+    const arrivalTime = new Date(arrivalTimestamp);
+    const departureTime = new Date(departureTimestamp);
+    const timeDifferenceMs = departureTime - arrivalTime;
+    const timeDifferenceMinutes = Math.floor(timeDifferenceMs / (1000 * 60));
+    return `${timeDifferenceMinutes} min`;
+  }
+
+  const formatDate = (formattedDateTime) => {
+    const dateObj = new Date(formattedDateTime);
+    const daysOfWeek = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    const dayOfWeek = daysOfWeek[dateObj.getDay()];
+    const day = dateObj.getDate();
+    const month = dateObj.getMonth() + 1; // Month is 0-indexed, so add 1
+    const year = dateObj.getFullYear();
+
+    return `${dayOfWeek}, ${day}.${month}.${year}`;
   };
 
   return (
@@ -96,6 +134,7 @@ function JourneyList({ journeys, isLoading }) {
         </div>
       ) : (
         <ul>
+          <p className="date-time">{formattedDateTime}</p>
           {journeys.slice(0, journeysToShow).map((journey, journeyIndex) => (
             <li
               key={journeyIndex}
@@ -146,6 +185,11 @@ function JourneyList({ journeys, isLoading }) {
                 <div className="fahr-names-container">
                   {journey.legs.map((leg, legIndex) => (
                     <div key={legIndex} className="fahr-name-item">
+                      {leg.walking && (
+                        <span className="waliking">
+                          <i className="bi bi-person-walking"></i>
+                        </span>
+                      )}
                       {leg.line && (
                         <span
                           className={`transport-type ${
@@ -165,6 +209,28 @@ function JourneyList({ journeys, isLoading }) {
                     <div className="transport-info">
                       {journey.legs.map((leg, legIndex) => (
                         <div key={legIndex}>
+                          {leg.walking && (
+                            <div className="details-info walksec">
+                              <i className="bi bi-person-walking"></i> <br />
+                              <span className="distance">{leg.distance} m</span>
+                              <br />
+                              <div className="arrival-walksec">
+                                <span
+                                  className={`arrival-time ${
+                                    journey.legs[journey.legs.length - 1]
+                                      .arrivalDelay > 0
+                                      ? "red"
+                                      : "green"
+                                  }`}
+                                >
+                                  {formatTime(leg.arrival)}
+                                </span>
+                                <span className="name">
+                                  {leg.destination.name}
+                                </span>
+                              </div>
+                            </div>
+                          )}
                           {leg.line && (
                             <div className="details-info">
                               <div className="departure-details">
@@ -210,6 +276,25 @@ function JourneyList({ journeys, isLoading }) {
                                   Platform: {leg.arrivalPlatform}
                                 </span>
                               </div>
+                            </div>
+                          )}
+                          {legIndex < journey.legs.length - 1 && (
+                            <div
+                              className={`time-difference ${
+                                journey.legs[legIndex + 1].walking
+                                  ? "walking-class"
+                                  : "not-walking-class"
+                              }`}
+                            >
+                              {journey.legs[legIndex + 1].walking
+                                ? calculateTimeDifference(
+                                    leg.arrival,
+                                    journey.legs[legIndex + 1].arrival
+                                  )
+                                : calculateTimeDifference(
+                                    leg.arrival,
+                                    journey.legs[legIndex + 1].departure
+                                  )}
                             </div>
                           )}
                         </div>

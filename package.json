@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.5.1",
     "bootstrap": "^5.3.2",
+    "bootstrap-icons": "^1.11.1",
     "db-hafas-stations-autocomplete": "^2.0.0",
     "db-stations": "^5.0.2",
     "db-stations-autocomplete": "^4.1.0",
