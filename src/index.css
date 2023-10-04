@@ -155,7 +155,7 @@ body {
 .brb,
 .ag,
 .wba,
-.nwb {
+.nwb,.r {
   background: #e20614;
   color: white;
 }
@@ -416,5 +416,16 @@ body {
   }
   .introduction-text h1 {
     width: 75%;
+  }
+
+  span.change {
+    position: relative;
+    left: 25px;
+  }
+
+  span.duration {
+    display: inline-block;
+    position: relative;
+    left: 14px;
   }
 }

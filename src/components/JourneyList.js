@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-function JourneyList({ journeys, isLoading, formattedDateTime }) {
+function JourneyList({ journeys, isLoading, formattedDateTime, errorMessage }) {
   const [selectedJourney, setSelectedJourney] = useState(null);
   const [journeysToShow, setJourneysToShow] = useState(3);
 
@@ -82,6 +82,7 @@ function JourneyList({ journeys, isLoading, formattedDateTime }) {
     ag: "ag",
     wba: "wba",
     nwb: "nwb",
+    r: "r",
   };
 
   // Function to calculate and format time difference in minutes
@@ -132,6 +133,10 @@ function JourneyList({ journeys, isLoading, formattedDateTime }) {
             reliability of traveling through Germany with our app, where your
             journey is just a few taps away.
           </p>
+        </div>
+      ) : errorMessage ? (
+        <div className="alert alert-danger" role="alert">
+          {errorMessage}
         </div>
       ) : (
         <ul>
@@ -308,7 +313,7 @@ function JourneyList({ journeys, isLoading, formattedDateTime }) {
           ))}
         </ul>
       )}
-      {journeysToShow < journeys.length && (
+      {!errorMessage && journeysToShow < journeys.length && (
         <button className="btn btn-primary load-more" onClick={handleShowMore}>
           Show More
         </button>

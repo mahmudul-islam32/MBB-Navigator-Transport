@@ -9,11 +9,7 @@ function App() {
   const [journeys, setJourneys] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [formattedDateTime, setFormattedDateTime] = useState(""); // Add state for formattedDateTime
-
-  // Define a function to update formattedDateTime
-  const updateFormattedDateTime = (newFormattedDateTime) => {
-    setFormattedDateTime(newFormattedDateTime);
-  };
+  const [errorMessage, setErrorMessage] = useState("");
 
   const searchJourneys = async (from, to, formattedDateTime, isDeparture) => {
     setIsLoading(true);
@@ -21,31 +17,39 @@ function App() {
       const fromResponse = await axios.get(
         `https://v5.db.transport.rest/locations?query=${from}`
       );
-      //  console.log(fromResponse);
+
       const toResponse = await axios.get(
         `https://v5.db.transport.rest/locations?query=${to}`
       );
 
       const fromStopId = fromResponse.data[0]?.id;
       const toStopId = toResponse.data[0]?.id;
-      //  console.log(formattedDateTime);
 
-      if (fromStopId && toStopId) {
-        const apiFormattedDateTime = new Date(formattedDateTime).toISOString();
-        const journeysResponse = await axios.get(
-          `https://v5.db.transport.rest/journeys?from=${fromStopId}&to=${toStopId}&results=50&${
-            isDeparture ? "departure" : "arrival"
-          }=${apiFormattedDateTime}`
-        );
-        // console.log(journeysResponse.data.journeys);
-        setJourneys(journeysResponse.data.journeys);
-        setIsLoading(false);
-        setFormattedDateTime(formattedDateTime);
-      } else {
+      if (!fromStopId || !toStopId) {
+        // Check if either fromStopId or toStopId is falsy
         console.error("Invalid locations");
+        setErrorMessage(
+          "Your Inputs not Found From our server.Please Try another Inputs..."
+        );
+        setIsLoading(false);
+        return; // Exit the function
       }
+
+      const apiFormattedDateTime = new Date(formattedDateTime).toISOString();
+      const journeysResponse = await axios.get(
+        `https://v5.db.transport.rest/journeys?from=${fromStopId}&to=${toStopId}&results=50&${
+          isDeparture ? "departure" : "arrival"
+        }=${apiFormattedDateTime}`
+      );
+
+      setJourneys(journeysResponse.data.journeys);
+      setIsLoading(false);
+      setFormattedDateTime(formattedDateTime);
     } catch (error) {
       console.error("An error occurred:", error);
+      setErrorMessage(
+        "We found no Connections with Your input. Please check your inputs and try Again.."
+      );
       setIsLoading(false);
     }
   };
@@ -71,6 +75,7 @@ function App() {
             journeys={Array.isArray(journeys) ? journeys : []}
             isLoading={isLoading}
             formattedDateTime={formattedDateTime}
+            errorMessage={errorMessage}
           />
         </div>
       </div>
