@@ -7,33 +7,55 @@ function SearchForm({ onSearch }) {
   const [isDeparture, setIsDeparture] = useState(true);
   const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
   const [time, setTime] = useState(new Date().toTimeString().slice(0, 5));
-
   const [fromSuggestions, setFromSuggestions] = useState([]);
   const [toSuggestions, setToSuggestions] = useState([]);
   const [isLoading, setIsLoading] = useState(false); // Add loading state
 
+  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
   const formatDateTime = (date, time) => {
-    // Create a new Date object for the selected date
-    const selectedDate = new Date(date);
+    if (isSafari) {
+      // Safari-specific implementation
+      const selectedDate = new Date(date);
+      const [hours, minutes] = time.split(":").map(Number);
+      selectedDate.setHours(hours);
+      selectedDate.setMinutes(minutes);
+      const options = {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
+      };
+      return selectedDate.toLocaleString("en-US", options);
+    } else {
+      // Chrome/Firefox and others
+      const dateTime = new Date(`${date}T${time}`);
+      const options = {
+        weekday: "long",
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
+      };
+      const formattedDateTime = new Intl.DateTimeFormat(
+        "en-US",
+        options
+      ).format(dateTime);
 
-    // Extract hours and minutes from the time input
-    const [hours, minutes] = time.split(":").map(Number);
+      const dateOptions = {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+      };
+      const formattedDate = new Intl.DateTimeFormat(
+        "en-US",
+        dateOptions
+      ).format(dateTime);
 
-    // Set the hours and minutes of the selected date
-    selectedDate.setHours(hours);
-    selectedDate.setMinutes(minutes);
-
-    // Format the date and time in a way that works consistently across browsers
-    const options = {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-      hour12: true,
-    };
-    return selectedDate.toLocaleString("en-US", options);
+      return `${formattedDateTime}, ${formattedDate}`;
+    }
   };
 
   const handleSubmit = async (e) => {
