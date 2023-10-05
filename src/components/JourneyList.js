@@ -43,8 +43,17 @@ function JourneyList({ journeys, isLoading, formattedDateTime, errorMessage }) {
       selectedJourney.legs[selectedJourney.legs.length - 1].arrival
     );
     const durationInMilliseconds = arrivalTime - departureTime;
-    const durationInHours = durationInMilliseconds / (1000 * 60 * 60);
-    return durationInHours.toFixed(2); // Display duration with two decimal places
+    const durationInMinutes = durationInMilliseconds / (1000 * 60);
+
+    if (durationInMinutes < 60) {
+      return `${Math.round(durationInMinutes)}${
+        Math.round(durationInMinutes) === 1 ? " min" : " mins"
+      }`;
+    } else {
+      const hours = Math.floor(durationInMinutes / 60);
+      const minutes = durationInMinutes % 60;
+      return `${hours} h ${minutes} min`;
+    }
   }
 
   const handleShowMore = () => {
@@ -84,6 +93,7 @@ function JourneyList({ journeys, isLoading, formattedDateTime, errorMessage }) {
     nwb: "nwb",
     r: "r",
     wfb: "wfb",
+    schiff: "schiff",
   };
 
   // Function to calculate and format time difference in minutes
@@ -175,7 +185,7 @@ function JourneyList({ journeys, isLoading, formattedDateTime, errorMessage }) {
                       chg. {journey.legs.length - 1}
                     </span>
                     <span className="duration">
-                      Dur. {calculateDuration(journey)} h
+                      Dur. {calculateDuration(journey)}
                     </span>
                   </div>
                   <div className="arrival-time-container">

@@ -185,8 +185,12 @@ body {
   background: #7d8185;
   color: white;
 }
-.u {
+.u{
   background: #0065ad;
+  color: white;
+}
+.schiff {
+  background: #42bced;
   color: white;
 }
 
