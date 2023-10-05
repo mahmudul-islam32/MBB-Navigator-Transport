@@ -83,6 +83,7 @@ function JourneyList({ journeys, isLoading, formattedDateTime, errorMessage }) {
     wba: "wba",
     nwb: "nwb",
     r: "r",
+    wfb: "wfb",
   };
 
   // Function to calculate and format time difference in minutes
@@ -152,6 +153,10 @@ function JourneyList({ journeys, isLoading, formattedDateTime, errorMessage }) {
                 className="journey-info"
                 onClick={() => handleJourneyClick(journey)}
               >
+                <div
+                  className="overlay"
+                  onClick={() => handleJourneyClick(journey)}
+                ></div>
                 <div className="departure-arrival-container">
                   <div className="departure-time-container">
                     <span
@@ -251,9 +256,11 @@ function JourneyList({ journeys, isLoading, formattedDateTime, errorMessage }) {
                                   {formatTime(leg.departure)}
                                 </span>
                                 <span className="name">{leg.origin.name}</span>
-                                <span className="departure-platform">
-                                  Platform: {leg.departurePlatform}
-                                </span>
+                                {leg.departurePlatform && (
+                                  <span className="departure-platform">
+                                    Platform: {leg.departurePlatform}
+                                  </span>
+                                )}
                               </div>
                               <span
                                 className={`transport-name ${
@@ -278,9 +285,11 @@ function JourneyList({ journeys, isLoading, formattedDateTime, errorMessage }) {
                                 <span className="name">
                                   {leg.destination.name}
                                 </span>
-                                <span className="arrival-platform">
-                                  Platform: {leg.arrivalPlatform}
-                                </span>
+                                {leg.arrivalPlatform && (
+                                  <span className="arrival-platform">
+                                    Platform: {leg.arrivalPlatform}
+                                  </span>
+                                )}
                               </div>
                             </div>
                           )}

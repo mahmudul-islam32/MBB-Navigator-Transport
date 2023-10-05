@@ -53,19 +53,28 @@ body {
 }
 
 .journey-item {
-  list-style: none;
-  border-bottom: 1px solid #e5e5e5;
-  cursor: pointer;
   background: white;
   padding: 30px;
   margin-bottom: 15px;
   list-style: none;
   border-bottom: 1px solid #ccc;
   cursor: pointer;
+  position: relative;
 }
 
 .journey-item.selected {
   background: #fce6e8;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1; /* Place it above other content */
+  background: transparent; /* Make it invisible */
+  cursor: pointer; /* Set cursor to pointer for user interaction */
 }
 
 .time {
@@ -155,7 +164,9 @@ body {
 .brb,
 .ag,
 .wba,
-.nwb,.r {
+.nwb,
+.r,
+.wfb {
   background: #e20614;
   color: white;
 }
@@ -174,12 +185,10 @@ body {
   background: #7d8185;
   color: white;
 }
-.u{
-  background: #0065AD;
+.u {
+  background: #0065ad;
   color: white;
 }
-
-
 
 /* Add CSS styles for layout */
 .departure-arrival-container {
@@ -433,5 +442,8 @@ body {
     display: inline-block;
     position: relative;
     left: 14px;
+  }
+  .logo {
+    padding: 5px;
   }
 }
