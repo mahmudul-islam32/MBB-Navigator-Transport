@@ -41,6 +41,7 @@ function App() {
           isDeparture ? "departure" : "arrival"
         }=${apiFormattedDateTime}`
       );
+      console.log(journeysResponse.data);
 
       setJourneys(journeysResponse.data.journeys);
       setIsLoading(false);

@@ -263,7 +263,10 @@ function JourneyList({ journeys, isLoading, formattedDateTime, errorMessage }) {
                                       : "green"
                                   }`}
                                 >
-                                  {formatTime(leg.departure)}
+                                  {formatTime(
+                                    journey.legs[0].departure,
+                                    journey.legs[0].departureDelay
+                                  )}
                                 </span>
                                 <span className="name">{leg.origin.name}</span>
                                 {leg.departurePlatform && (
@@ -281,6 +284,10 @@ function JourneyList({ journeys, isLoading, formattedDateTime, errorMessage }) {
                               >
                                 {leg.line.name}
                               </span>
+                              <span className="direction-name">
+                                <i className="bi bi-arrow-right"></i>{" "}
+                                {leg.direction}
+                              </span>
                               <div className="arriavl-details">
                                 <span
                                   className={`arrival-time ${
@@ -290,7 +297,12 @@ function JourneyList({ journeys, isLoading, formattedDateTime, errorMessage }) {
                                       : "green"
                                   }`}
                                 >
-                                  {formatTime(leg.arrival)}
+                                  {formatTime(
+                                    journey.legs[journey.legs.length - 1]
+                                      .arrival,
+                                    journey.legs[journey.legs.length - 1]
+                                      .arrivalDelay
+                                  )}
                                 </span>
                                 <span className="name">
                                   {leg.destination.name}

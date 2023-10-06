@@ -413,6 +413,10 @@ body {
   padding: 35px 0px;
 }
 
+.direction-name {
+  margin-left: 15px;
+}
+
 @media (max-width: 768px) {
   .journey-details {
     margin-top: 30px;
