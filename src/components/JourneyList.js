@@ -2,17 +2,31 @@ import React, { useState } from "react";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 function JourneyList({ journeys, isLoading, formattedDateTime, errorMessage }) {
-  const [selectedJourney, setSelectedJourney] = useState(null);
+  const [selectedJourneys, setSelectedJourneys] = useState([]);
   const [journeysToShow, setJourneysToShow] = useState(3);
+  const [expandedStopovers, setExpandedStopovers] = useState({});
+
+  const toggleStopovers = (journeyIndex) => {
+    setExpandedStopovers((prevState) => ({
+      ...prevState,
+      [journeyIndex]: !prevState[journeyIndex],
+    }));
+  };
 
   const handleJourneyClick = (journey) => {
-    if (selectedJourney === journey) {
-      // If the same journey is clicked again, deselect it
-      setSelectedJourney(null);
+    if (selectedJourneys.includes(journey)) {
+      // If the journey is already selected, remove it
+      setSelectedJourneys((prevState) =>
+        prevState.filter((selectedJourney) => selectedJourney !== journey)
+      );
     } else {
-      setSelectedJourney(journey);
+      // If the journey is not selected, add it
+      setSelectedJourneys((prevState) => [...prevState, journey]);
     }
   };
+
+  // Function to check if a journey is selected
+  const isJourneySelected = (journey) => selectedJourneys.includes(journey);
 
   function formatTime(time, delay) {
     const formattedTime = new Date(time).toLocaleTimeString("en-US", {
@@ -94,6 +108,10 @@ function JourneyList({ journeys, isLoading, formattedDateTime, errorMessage }) {
     r: "r",
     wfb: "wfb",
     schiff: "schiff",
+    evb: "evb",
+    rnv: "rnv",
+    est: "est",
+    flx: "flx",
   };
 
   // Function to calculate and format time difference in minutes
@@ -104,25 +122,6 @@ function JourneyList({ journeys, isLoading, formattedDateTime, errorMessage }) {
     const timeDifferenceMinutes = Math.floor(timeDifferenceMs / (1000 * 60));
     return `${timeDifferenceMinutes} min`;
   }
-
-  const formatDate = (formattedDateTime) => {
-    const dateObj = new Date(formattedDateTime);
-    const daysOfWeek = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-    ];
-    const dayOfWeek = daysOfWeek[dateObj.getDay()];
-    const day = dateObj.getDate();
-    const month = dateObj.getMonth() + 1; // Month is 0-indexed, so add 1
-    const year = dateObj.getFullYear();
-
-    return `${dayOfWeek}, ${day}.${month}.${year}`;
-  };
 
   return (
     <div className="journey-details">
@@ -156,17 +155,10 @@ function JourneyList({ journeys, isLoading, formattedDateTime, errorMessage }) {
             <li
               key={journeyIndex}
               className={`journey-item ${
-                selectedJourney === journey ? "selected" : ""
+                isJourneySelected(journey) ? "selected" : ""
               }`}
             >
-              <span
-                className="journey-info"
-                onClick={() => handleJourneyClick(journey)}
-              >
-                <div
-                  className="overlay"
-                  onClick={() => handleJourneyClick(journey)}
-                ></div>
+              <span className="journey-info">
                 <div className="departure-arrival-container">
                   <div className="departure-time-container">
                     <span
@@ -203,29 +195,42 @@ function JourneyList({ journeys, isLoading, formattedDateTime, errorMessage }) {
                     </span>
                   </div>
                 </div>
-                <div className="fahr-names-container">
-                  {journey.legs.map((leg, legIndex) => (
-                    <div key={legIndex} className="fahr-name-item">
-                      {leg.walking && (
-                        <span className="waliking">
-                          <i className="bi bi-person-walking"></i>
-                        </span>
-                      )}
-                      {leg.line && (
-                        <span
-                          className={`transport-type ${
-                            transportTypeClassMapping[
-                              leg.line.productName.toLowerCase()
-                            ] || ""
-                          }`}
-                        >
-                          {leg.line.productName}
-                        </span>
-                      )}
-                    </div>
-                  ))}
+                <div className="fahr-names-container d-flex justify-content-between">
+                  {/* Left-aligned elements */}
+                  <div className="left-content">
+                    {journey.legs.map((leg, legIndex) => (
+                      <div key={legIndex} className="fahr-name-item">
+                        {leg.walking && (
+                          <span className="walking">
+                            <i className="bi bi-person-walking"></i>
+                          </span>
+                        )}
+                        {leg.line && (
+                          <span
+                            className={`transport-type ${
+                              transportTypeClassMapping[
+                                leg.line.productName.toLowerCase()
+                              ] || ""
+                            }`}
+                          >
+                            {leg.line.productName}
+                          </span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                  {/* Right-aligned button */}
+                  <div className="button-container">
+                    <button
+                      className="btn btn-primary btn-select"
+                      onClick={() => handleJourneyClick(journey)}
+                    >
+                      {isJourneySelected(journey) ? "Close" : "Select"}
+                    </button>
+                  </div>
                 </div>
-                {selectedJourney === journey && (
+
+                {selectedJourneys.includes(journey) && (
                   <div className="journey-details-container">
                     <div className="transport-info">
                       {journey.legs.map((leg, legIndex) => (
@@ -288,6 +293,52 @@ function JourneyList({ journeys, isLoading, formattedDateTime, errorMessage }) {
                                 <i className="bi bi-arrow-right"></i>{" "}
                                 {leg.direction}
                               </span>
+                              <span className="stop-over">
+                                {expandedStopovers[journeyIndex] ? (
+                                  <>
+                                    <i
+                                      className="bi bi-chevron-up"
+                                      onClick={() =>
+                                        toggleStopovers(journeyIndex)
+                                      }
+                                      style={{ cursor: "pointer" }}
+                                    ></i>
+                                    {journey.legs[0].stopovers
+                                      .slice(
+                                        1,
+                                        journey.legs[0].stopovers.length - 1
+                                      ) // Exclude the first and last elements
+                                      .map((stopover, stopoverIndex) => (
+                                        <li
+                                          key={stopoverIndex}
+                                          className="stop-over-list"
+                                        >
+                                          <li className="stop-ar">
+                                            {formatTime(stopover.arrival)}
+                                          </li>
+                                          <li className="stop-n">
+                                            {stopover.stop.name}
+                                          </li>
+                                          <li className="stop-p">
+                                            Pl.{stopover.departurePlatform}
+                                          </li> <br/>
+                                          <li className="stop-d">
+                                            {formatTime(stopover.departure)}
+                                          </li>
+                                        </li>
+                                      ))}
+                                  </>
+                                ) : (
+                                  <i
+                                    className="bi bi-chevron-down"
+                                    onClick={() =>
+                                      toggleStopovers(journeyIndex)
+                                    }
+                                    style={{ cursor: "pointer" }}
+                                  ></i>
+                                )}
+                              </span>
+
                               <div className="arriavl-details">
                                 <span
                                   className={`arrival-time ${

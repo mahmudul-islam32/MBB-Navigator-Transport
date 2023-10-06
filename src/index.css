@@ -58,7 +58,6 @@ body {
   margin-bottom: 15px;
   list-style: none;
   border-bottom: 1px solid #ccc;
-  cursor: pointer;
   position: relative;
 }
 
@@ -66,16 +65,16 @@ body {
   background: #fce6e8;
 }
 
-.overlay {
+/*.overlay {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   z-index: 1; /* Place it above other content */
-  background: transparent; /* Make it invisible */
-  cursor: pointer; /* Set cursor to pointer for user interaction */
-}
+/* background: transparent; /* Make it invisible */
+/* cursor: pointer; /* Set cursor to pointer for user interaction */
+/*} */
 
 .time {
   font-size: 20px;
@@ -125,11 +124,16 @@ body {
 .fahr-name-item {
   position: relative;
 }
+.left-content .fahr-name-item {
+  display: inline-block;
+  padding: 0px 10px;
+  left: -7%;
+}
 
 .fahr-name-item:not(:first-child)::before {
   content: "";
   position: absolute;
-  left: -13px;
+  left: -5px;
   top: 50%;
   transform: translateY(-50%);
   height: 2px;
@@ -166,7 +170,11 @@ body {
 .wba,
 .nwb,
 .r,
-.wfb {
+.wfb,
+.evb,
+.rnv,
+.est,
+.flx {
   background: #e20614;
   color: white;
 }
@@ -185,7 +193,7 @@ body {
   background: #7d8185;
   color: white;
 }
-.u{
+.u {
   background: #0065ad;
   color: white;
 }
@@ -415,6 +423,76 @@ body {
 
 .direction-name {
   margin-left: 15px;
+}
+
+.btn.btn-primary.btn-select {
+  padding: 2px 12px;
+  font-size: 15px;
+  float: right;
+}
+
+.bi.bi-chevron-down,
+.bi.bi-chevron-up {
+  color: #222;
+  font-size: 16px !important;
+  margin-left: 12px;
+}
+
+.bi.bi-chevron-down::before,
+.bi.bi-chevron-up::before {
+  font-weight: 600 !important;
+}
+
+.bi.bi-arrow-right {
+  margin-right: 5px;
+}
+
+.stop-over-list li {
+  display: inline-block;
+}
+
+.stop-over-list {
+  margin-top: 15px;
+}
+.stop-over-list li {
+  display: inline-block;
+  padding-right: 35px;
+  margin-right: ;
+}
+.stop-ar .time {
+  font-size: 15px;
+  font-weight: 400;
+}
+.stop-d .time {
+  font-size: 15px;
+  font-weight: 400;
+}
+.stop-p {
+  float: right;
+}
+.stop-n {
+  position: relative;
+  top: 12px;
+  font-size: 14px;
+  font-weight: 400;
+}
+.stop-p {
+  position: relative;
+  top: 15px;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.stop-over-list:before {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  height: 8px;
+  width: 8px;
+  background-color: gray;
+  transform: translateY(-50%);
+  left: -5px;
+  margin-top: 25px;
 }
 
 @media (max-width: 768px) {
