@@ -532,4 +532,35 @@ body {
   .logo {
     padding: 5px;
   }
+  .bi.bi-arrow-right {
+    margin-left: -8px;
+  }
+  .bi.bi-chevron-down,
+  .bi.bi-chevron-up {
+    margin-left: -10px;
+    position: relative;
+    left: 18px;
+  }
+  .delay {
+    font-size: 10px;
+  }
+  .stop-over-list li {
+    padding-right: 0px;
+  }
+  .stop-ar .time {
+    font-size: 12px;
+  }
+  .stop-d .time {
+    font-size: 12px;
+  }
+  .stop-n {
+    font-size: 12px;
+  }
+  .stop-p {
+    font-size: 12px;
+  }
+  .stop-n {
+    position: relative;
+    left: 10px;
+  }
 }

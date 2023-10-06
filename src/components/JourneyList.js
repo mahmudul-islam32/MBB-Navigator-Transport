@@ -319,9 +319,10 @@ function JourneyList({ journeys, isLoading, formattedDateTime, errorMessage }) {
                                           <li className="stop-n">
                                             {stopover.stop.name}
                                           </li>
-                                          <li className="stop-p">
+                                        { stopover.departurePlatform && <li className="stop-p">
                                             Pl.{stopover.departurePlatform}
-                                          </li> <br/>
+                                          </li>}
+                                          <br />
                                           <li className="stop-d">
                                             {formatTime(stopover.departure)}
                                           </li>
