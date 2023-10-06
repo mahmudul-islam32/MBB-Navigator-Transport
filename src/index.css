@@ -563,4 +563,7 @@ body {
     position: relative;
     left: 10px;
   }
+  .stop-over-list {
+    width: 125%;
+  }
 }
