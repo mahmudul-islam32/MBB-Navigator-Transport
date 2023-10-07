@@ -2,31 +2,28 @@ import React, { useState } from "react";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 function JourneyList({ journeys, isLoading, formattedDateTime, errorMessage }) {
-  const [selectedJourneys, setSelectedJourneys] = useState([]);
+  const [selectedJourneyIndex, setSelectedJourneyIndex] = useState(-1);
   const [journeysToShow, setJourneysToShow] = useState(3);
-  const [expandedStopovers, setExpandedStopovers] = useState({});
+  const [expandedStopovers, setExpandedStopovers] = useState(
+    journeys.map((journey) => Array(journey.legs.length).fill(false))
+  );
 
-  const toggleStopovers = (journeyIndex) => {
+  const toggleStopovers = (legIndex) => {
     setExpandedStopovers((prevState) => ({
       ...prevState,
-      [journeyIndex]: !prevState[journeyIndex],
+      [legIndex]: !prevState[legIndex],
     }));
   };
 
-  const handleJourneyClick = (journey) => {
-    if (selectedJourneys.includes(journey)) {
-      // If the journey is already selected, remove it
-      setSelectedJourneys((prevState) =>
-        prevState.filter((selectedJourney) => selectedJourney !== journey)
-      );
+  const handleJourneyClick = (journeyIndex) => {
+    if (selectedJourneyIndex === journeyIndex) {
+      // If the same journey is clicked again, close it
+      setSelectedJourneyIndex(-1);
     } else {
-      // If the journey is not selected, add it
-      setSelectedJourneys((prevState) => [...prevState, journey]);
+      // Otherwise, set the selected journey index
+      setSelectedJourneyIndex(journeyIndex);
     }
   };
-
-  // Function to check if a journey is selected
-  const isJourneySelected = (journey) => selectedJourneys.includes(journey);
 
   function formatTime(time, delay) {
     const formattedTime = new Date(time).toLocaleTimeString("en-US", {
@@ -155,7 +152,7 @@ function JourneyList({ journeys, isLoading, formattedDateTime, errorMessage }) {
             <li
               key={journeyIndex}
               className={`journey-item ${
-                isJourneySelected(journey) ? "selected" : ""
+                selectedJourneyIndex === journeyIndex ? "selected" : ""
               }`}
             >
               <span className="journey-info">
@@ -223,14 +220,16 @@ function JourneyList({ journeys, isLoading, formattedDateTime, errorMessage }) {
                   <div className="button-container">
                     <button
                       className="btn btn-primary btn-select"
-                      onClick={() => handleJourneyClick(journey)}
+                      onClick={() => handleJourneyClick(journeyIndex)}
                     >
-                      {isJourneySelected(journey) ? "Close" : "Select"}
+                      {selectedJourneyIndex === journeyIndex
+                        ? "Close"
+                        : "Select"}
                     </button>
                   </div>
                 </div>
 
-                {selectedJourneys.includes(journey) && (
+                {selectedJourneyIndex === journeyIndex && (
                   <div className="journey-details-container">
                     <div className="transport-info">
                       {journey.legs.map((leg, legIndex) => (
@@ -294,20 +293,15 @@ function JourneyList({ journeys, isLoading, formattedDateTime, errorMessage }) {
                                 {leg.direction}
                               </span>
                               <span className="stop-over">
-                                {expandedStopovers[journeyIndex] ? (
+                                {expandedStopovers[legIndex] ? (
                                   <>
                                     <i
                                       className="bi bi-chevron-up"
-                                      onClick={() =>
-                                        toggleStopovers(journeyIndex)
-                                      }
+                                      onClick={() => toggleStopovers(legIndex)}
                                       style={{ cursor: "pointer" }}
                                     ></i>
-                                    {journey.legs[0].stopovers
-                                      .slice(
-                                        1,
-                                        journey.legs[0].stopovers.length - 1
-                                      ) // Exclude the first and last elements
+                                    {leg.stopovers
+                                      .slice(1, leg.stopovers.length - 1) // Exclude the first and last elements
                                       .map((stopover, stopoverIndex) => (
                                         <li
                                           key={stopoverIndex}
@@ -319,9 +313,11 @@ function JourneyList({ journeys, isLoading, formattedDateTime, errorMessage }) {
                                           <li className="stop-n">
                                             {stopover.stop.name}
                                           </li>
-                                        { stopover.departurePlatform && <li className="stop-p">
-                                            Pl.{stopover.departurePlatform}
-                                          </li>}
+                                          {stopover.departurePlatform && (
+                                            <li className="stop-p">
+                                              Pl.{stopover.departurePlatform}
+                                            </li>
+                                          )}
                                           <br />
                                           <li className="stop-d">
                                             {formatTime(stopover.departure)}
@@ -332,9 +328,7 @@ function JourneyList({ journeys, isLoading, formattedDateTime, errorMessage }) {
                                 ) : (
                                   <i
                                     className="bi bi-chevron-down"
-                                    onClick={() =>
-                                      toggleStopovers(journeyIndex)
-                                    }
+                                    onClick={() => toggleStopovers(legIndex)}
                                     style={{ cursor: "pointer" }}
                                   ></i>
                                 )}
