@@ -125,21 +125,12 @@ function JourneyList({ journeys, isLoading, formattedDateTime, errorMessage }) {
       {isLoading ? (
         // Show loading image while waiting for data
         <div className="introduction-text">
-          <h1>Travel With Us</h1>
-          <p>
-            Traveling with our app provides a seamless and efficient way to
-            explore Germany's extensive transportation network. With our app,
-            you can easily plan your journeys, whether it's for business or
-            leisure. You can check the availability of connections, departure
-            and arrival times, and even track real-time updates. Our app's
-            user-friendly interface makes it simple to input your starting point
-            and destination, select departure or arrival times, and view
-            multiple travel options. Say goodbye to the stress of navigating
-            unfamiliar transportation routes; our app empowers you to make
-            informed travel decisions. Experience the convenience and
-            reliability of traveling through Germany with our app, where your
-            journey is just a few taps away.
-          </p>
+          <h1>How it Works</h1>
+          <div className="video-container">
+            <video controls autoPlay muted>
+              <source src="/video.mp4" type="video/mp4" />
+            </video>
+          </div>
         </div>
       ) : errorMessage ? (
         <div className="alert alert-danger" role="alert">
