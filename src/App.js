@@ -39,7 +39,7 @@ function App() {
 
       const apiFormattedDateTime = new Date(formattedDateTime).toISOString();
       const journeysResponse = await axios.get(
-        `https://v5.db.transport.rest/journeys?from=${fromStopId}&to=${toStopId}&results=50&{
+        `https://v5.db.transport.rest/journeys?from=${fromStopId}&to=${toStopId}&results=50&${
           isDeparture ? "departure" : "arrival"
         }=${apiFormattedDateTime}&stopovers=${stopovers}`
       );
