@@ -258,10 +258,7 @@ function JourneyList({ journeys, isLoading, formattedDateTime, errorMessage }) {
                                       : "green"
                                   }`}
                                 >
-                                  {formatTime(
-                                    journey.legs[0].departure,
-                                    journey.legs[0].departureDelay
-                                  )}
+                                  {formatTime(leg.departure)}
                                 </span>
                                 <span className="name">{leg.origin.name}</span>
                                 {leg.departurePlatform && (
@@ -334,12 +331,7 @@ function JourneyList({ journeys, isLoading, formattedDateTime, errorMessage }) {
                                       : "green"
                                   }`}
                                 >
-                                  {formatTime(
-                                    journey.legs[journey.legs.length - 1]
-                                      .arrival,
-                                    journey.legs[journey.legs.length - 1]
-                                      .arrivalDelay
-                                  )}
+                                  {formatTime(leg.arrival)}
                                 </span>
                                 <span className="name">
                                   {leg.destination.name}
